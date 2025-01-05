@@ -1,0 +1,217 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\L1\\Stage\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\postetravailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\postetravailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\employecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\employecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\models\\employe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:models\\employe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\models\\avance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:models\\avance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:models\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\demandeavancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\demandeavancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\inboxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\inboxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\models\\poste_travail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:models\\poste_travail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\salairecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\salairecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\models\\salaire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:models\\salaire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|d:\\l1\\stage\\backend\\controllers\\avancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F880A39-5BAD-4C94-B3D0-F25A451853FC}|backend.csproj|solutionrelative:controllers\\avancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAAJIAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T13:32:06.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "InboxController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\InboxController.cs",
+              "RelativeDocumentMoniker": "Controllers\\InboxController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\InboxController.cs",
+              "RelativeToolTip": "Controllers\\InboxController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAYwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-06T16:28:36.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EmployeController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\EmployeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EmployeController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\EmployeController.cs",
+              "RelativeToolTip": "Controllers\\EmployeController.cs",
+              "ViewState": "AgIAALUAAAAAAAAAAADwvx0AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T14:01:36.909Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Employe.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Models\\Employe.cs",
+              "RelativeDocumentMoniker": "Models\\Employe.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Models\\Employe.cs",
+              "RelativeToolTip": "Models\\Employe.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCQAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T09:25:49.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PosteTravailController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\PosteTravailController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PosteTravailController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\PosteTravailController.cs",
+              "RelativeToolTip": "Controllers\\PosteTravailController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwKUAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T05:20:13.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Avance.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Models\\Avance.cs",
+              "RelativeDocumentMoniker": "Models\\Avance.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Models\\Avance.cs",
+              "RelativeToolTip": "Models\\Avance.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAA2wCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T09:23:11.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Models\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "Models\\LoginRequest.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Models\\LoginRequest.cs",
+              "RelativeToolTip": "Models\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T17:58:08.955Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DemandeAvanceController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\DemandeAvanceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DemandeAvanceController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\DemandeAvanceController.cs",
+              "RelativeToolTip": "Controllers\\DemandeAvanceController.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAswKAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T08:32:45.572Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Poste_travail.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Models\\Poste_travail.cs",
+              "RelativeDocumentMoniker": "Models\\Poste_travail.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Models\\Poste_travail.cs",
+              "RelativeToolTip": "Models\\Poste_travail.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-12T09:27:02.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SalaireController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\SalaireController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SalaireController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\SalaireController.cs",
+              "RelativeToolTip": "Controllers\\SalaireController.cs",
+              "ViewState": "AgIAABwBAAAAAAAAAAAiwDYBAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T05:45:23.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AvanceController.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Controllers\\AvanceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AvanceController.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Controllers\\AvanceController.cs",
+              "RelativeToolTip": "Controllers\\AvanceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T06:04:48.517Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Salaire.cs",
+              "DocumentMoniker": "D:\\L1\\Stage\\backend\\Models\\Salaire.cs",
+              "RelativeDocumentMoniker": "Models\\Salaire.cs",
+              "ToolTip": "D:\\L1\\Stage\\backend\\Models\\Salaire.cs",
+              "RelativeToolTip": "Models\\Salaire.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA1wAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-17T12:48:15.24Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
