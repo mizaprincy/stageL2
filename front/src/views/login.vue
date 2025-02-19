@@ -62,6 +62,9 @@ const addUser = async () => {
     // Envoi de la requête POST
     const response = await axios.post(`${backendUrl}/Auth/signup`, userDataSignup)
     const user = response.data.user
+    const token = response.data.token // Supposons que le token soit retourné ici
+    sessionStorage.setItem('token', token) // Stocker le token
+    console.log(token)
     const userData = JSON.stringify(user)
     if (userData) {
       globalStore.setUser(user)
@@ -115,7 +118,7 @@ const addUser = async () => {
 //Login
 const connexion = async () => {
   isLoading.value = true
-  const globalStore = useGlobalStore()  
+  const globalStore = useGlobalStore()
   const loginRequest: Login = {
     email: formemail.value,
     password: formpassword.value
@@ -125,6 +128,8 @@ const connexion = async () => {
     const response = await axios.post(`${backendUrl}/Auth/login`, loginRequest)
 
     const user = response.data.user
+    const token = response.data.token // Supposons que le token soit retourné ici
+    sessionStorage.setItem('token', token) // Stocker le token
     formemail.value = ''
     formpassword.value = ''
     const userData = JSON.stringify(user)
@@ -136,7 +141,6 @@ const connexion = async () => {
     } else {
       router.push('/employe')
     }
-    console.log(globalStore.user)
   } catch (error: any) {
     console.error('Erreur de la réponse :', error.response.data)
     if (error.response && error.response.data) {
@@ -166,7 +170,7 @@ const connexion = async () => {
 
 export default {
   setup() {
-    return {   
+    return {
       formemail,
       formpassword,
       isLoading,

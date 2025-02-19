@@ -24,6 +24,7 @@ export const useGlobalStore = defineStore('global', {
     logout() {
       this.user = null;
       this.isAdmin = false;
+      sessionStorage.clear()
       console.log("clear data")
     },
   },

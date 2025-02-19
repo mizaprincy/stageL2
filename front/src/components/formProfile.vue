@@ -24,7 +24,6 @@ export default defineComponent({
   setup() {
     const globalStore = useGlobalStore()
     const { user } = globalStore
-    console.log(user)
     return {
       user
     }

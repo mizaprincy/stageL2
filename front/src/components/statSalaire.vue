@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import LineChart from '@/components/ui/LineChart.vue'
 import { ref, watch } from 'vue'
 import { useToast } from 'vue-toast-notification'
 import { useGlobalStore } from '@/stores/globalStore'
 import router from '@/router'
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
 const toast = useToast()
 const AnneeFilter = ref<number>(new Date().getFullYear())
 
@@ -54,7 +53,7 @@ const fetchSalaire = async () => {
     router.push('/')
   }
   try {
-    const response = await axios.get<{
+    const response = await axiosInstance.get<{
       employeId: string
       employeNom: string
       employePrenom: string
@@ -66,7 +65,7 @@ const fetchSalaire = async () => {
         avanceDeduite: number
       }>
     }>(
-      `${backendUrl}/Salaire/salaires/par-annee?id_employe=${globalStore.user?.employeId}&annee=${AnneeFilter.value}`
+      `/Salaire/salaires/par-annee?id_employe=${globalStore.user?.employeId}&annee=${AnneeFilter.value}`
     )
     salaireData.value = response.data
     updatechart()
@@ -286,8 +285,7 @@ watch(AnneeFilter, async (newValue, oldValue) => {
           class="w-full h-[80%]"
         />
         <h3 class="font-sans text-xs text-slate-600">
-          Courbe des heures travaillées, salaire horaire et salaire du mois en fonction du poste de
-          travail
+          Courbe des salaires enregistrés au cours de cette année
         </h3>
       </div>
     </section>

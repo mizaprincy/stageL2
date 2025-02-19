@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { useToast } from 'vue-toast-notification'
 import { useGlobalStore } from '@/stores/globalStore'
+import { eventBus } from '@/components/events/eventBus'
 
 export default defineComponent({
   name: 'UserProfile',
-  setup() {
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+  setup(_, { emit }) {
     const toast = useToast()
 
     const globalStore = useGlobalStore()
@@ -40,14 +40,15 @@ export default defineComponent({
           typeAvance: demandeAvance.value.typeAvance
         }
         // Envoi de la requête POST
-        const response = await axios.post(
-          `${backendUrl}/DemandeAvance/employe/demander?email=${email}`,
+        const response = await axiosInstance.post(
+          `/DemandeAvance/employe/demander?email=${email}`,
           demandeData
         )
-        console.log('Demande effectue avec succes', response.data)
+        console.log('Demande effectuée avec succes', response.data)
         toast.success('Demande effectuée avec succès', {
           position: 'top-right'
         })
+        eventBus.emit('refreshInbox')
 
         // Réinitialiser les champs après l'ajout
         demandeAvance.value = {

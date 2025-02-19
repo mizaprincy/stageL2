@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios';
 import { useToast } from 'vue-toast-notification';
 import { eventBus } from './events/eventBus'
 
@@ -31,8 +31,6 @@ function exitFormAjoutPoste() {
   }
 }
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
-
 //Ajout d'un poste
 const AjoutPoste = async () => {
   try {
@@ -47,7 +45,7 @@ const AjoutPoste = async () => {
       description: newPoste.value.description
     }
     // Envoi de la requête POST
-    const response = await axios.post(`${backendUrl}/PosteTravail`, PosteData)
+    const response = await axiosInstance.post('/PosteTravail', PosteData)
     console.log('Poste ajouté avec succès', response.data)
     toast.success('Poste ajouté avec succès')
     eventBus.emit('PosteAdded')

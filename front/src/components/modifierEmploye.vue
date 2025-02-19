@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref, watch, defineComponent, type PropType } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios';
 import { type Employe, type PosteTravail } from './interface/Employe'
 
 export default defineComponent({
@@ -35,7 +35,6 @@ export default defineComponent({
       emit('fermer')
     }
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
     // Liste des postes de travail
     const postes = ref<PosteTravail[]>([])
     const loading = ref(false)
@@ -47,7 +46,7 @@ export default defineComponent({
       error.value = null
 
       try {
-        const response = await axios.get<PosteTravail[]>(`${backendUrl}/PosteTravail`)
+        const response = await axiosInstance.get<PosteTravail[]>(`/PosteTravail`)
         postes.value = response.data
       } catch (err) {
         error.value = 'Erreur lors du chargement des postes de travail'

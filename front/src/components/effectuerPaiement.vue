@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { useToast } from 'vue-toast-notification'
 import '@vuepic/vue-datepicker/dist/main.css'
 import PaiementConfirm from './paiementConfirm.vue'
 import { eventBus } from './events/eventBus'
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
-const toast = useToast({position: 'top-right'})
+const toast = useToast({ position: 'top-right' })
 
 const salaire = ref<{
   id_employe: string
@@ -53,7 +52,7 @@ const confirmPaiement = (paiement: {
 }) => {
   if (!paiement.date_paiement) {
     toast.error('Veuillez choisir la date de paiement')
-    return 
+    return
   }
   // Regex pour valider l'année (4 chiffres)
   const yearPattern = /^[0-9]{4}$/
@@ -66,7 +65,9 @@ const confirmPaiement = (paiement: {
 
   // Validation de l'année
   if (!yearPattern.test(paiement.annee.toString())) {
-    toast.error("Pattern invalide pour l'année : Veuillez entrer une année valide au format 'yyyy'.")
+    toast.error(
+      "Pattern invalide pour l'année : Veuillez entrer une année valide au format 'yyyy'."
+    )
     return // Interrompre le traitement si l'année est invalide
   }
   paiementdata.value = { ...paiement } // Cloner l'objet paiement
@@ -90,7 +91,7 @@ const submitPaiement = async (paiement: {
       annee: paiement.annee
     }
     // Envoi de la requête POST
-    const response = await axios.post(`${backendUrl}/Salaire`, salaireData)
+    const response = await axiosInstance.post(`/Salaire`, salaireData)
     console.log('Paiement effectuee avec succes', response.data)
     toast.success('Paiement effectuee avec succes')
     eventBus.emit('paiementAdded')
@@ -100,7 +101,7 @@ const submitPaiement = async (paiement: {
       id_employe: '',
       date_paiement: null,
       mois: 0,
-      annee: 2024
+      annee: new Date().getFullYear()
     }
   } catch (error: any) {
     console.error('Erreur lors du paiement', error)
@@ -108,7 +109,7 @@ const submitPaiement = async (paiement: {
       id_employe: '',
       date_paiement: null,
       mois: 0,
-      annee: 2024
+      annee: new Date().getFullYear()
     }
     toast.error(error.response.data.message)
   }
@@ -124,7 +125,7 @@ const resetPaiement = () => {
     id_employe: '',
     date_paiement: null,
     mois: 0,
-    annee: 2024
+    annee: new Date().getFullYear()
   }
 }
 </script>

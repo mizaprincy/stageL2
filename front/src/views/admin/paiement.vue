@@ -5,13 +5,16 @@ import { useToast } from 'vue-toast-notification'
 import EffectuerPaiement from '@/components/effectuerPaiement.vue'
 import LineChart from '@/components/ui/LineChart.vue'
 import { eventBus } from '@/components/events/eventBus'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
+import html2pdf from 'html2pdf.js'
 
 export default defineComponent({
   name: 'paiement',
   components: { EffectuerPaiement, LineChart },
   setup() {
     const backendUrl = import.meta.env.VITE_BACKEND_URL
-    const toast = useToast({position: 'top-right'})
+    const toast = useToast({ position: 'top-right' })
     const EmployeIdFilter = ref<string>('')
     const AnneeFilter = ref<number>(new Date().getFullYear())
     const moisEnLettres = [
@@ -56,7 +59,6 @@ export default defineComponent({
       error.value = null
 
       if (!EmployeIdFilter.value || !AnneeFilter.value) {
-        alert('Veuillez choisir les filtres')
         loading.value = false
         return
       }
@@ -175,9 +177,7 @@ export default defineComponent({
         .fill({ mois: null, montant: null })
         .concat(lastThree)
       // Construire les labels et données
-      const labels = paddedSalaires.map((s) =>
-        s.mois !== null ? moisEnLettres[s.mois - 1] : '-'
-      )
+      const labels = paddedSalaires.map((s) => (s.mois !== null ? moisEnLettres[s.mois - 1] : '-'))
       const data = paddedSalaires.map((s) => (s.montant !== null ? s.montant : 0))
       // Crée un nouvel objet pour productivityData
       productivityData.value = {
@@ -223,6 +223,50 @@ export default defineComponent({
       resetchart()
     }
 
+    const exportToPDF = () => {
+      const content = document.getElementById('ficheContent')
+      if (!content) return
+
+      const fileName = prompt('Veuillez saisir le nom du fichier PDF')
+      if (!fileName || fileName.trim() === '') return
+
+      // Ajuster temporairement la hauteur pour une meilleure capture
+      const originalHeight = content.style.height
+      content.style.height = 'auto'
+
+      const options = {
+        margin: 10,
+        filename: fileName + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }
+
+      html2pdf()
+        .from(content)
+        .set(options)
+        .save()
+        .finally(() => {
+          content.style.height = originalHeight // Remet la hauteur d'origine
+          if (typeof annulerImpression === 'function') {
+            annulerImpression() // Exécuter la fonction si elle existe
+          }
+        })
+    }
+
+    const afficheFicheDePaie = () => {
+      const ficheDePaie = document.getElementById('ficheDePaie')
+      if (!ficheDePaie) return
+
+      ficheDePaie.style.display = 'block'
+    }
+    const annulerImpression = () => {
+      const ficheDePaie = document.getElementById('ficheDePaie')
+      if (!ficheDePaie) return
+
+      ficheDePaie.style.display = 'none'
+    }
+
     //fetchEmployes apres un ajout
     function handlePaiementAdded() {
       fetchSalaire()
@@ -244,7 +288,10 @@ export default defineComponent({
       productivityData,
       chartOptions,
       loading,
-      moisEnLettres
+      moisEnLettres,
+      exportToPDF,
+      afficheFicheDePaie,
+      annulerImpression
     }
   }
 })
@@ -284,7 +331,7 @@ export default defineComponent({
                   id="employeIdFilter"
                   v-model="EmployeIdFilter"
                   placeholder="Employe ID"
-                  class="w-36 my-2 p-1.5 rounded-sm outline-none border-[1px] border-slate-400 text-slate-600"
+                  class="w-36 my-2 p-2 rounded-sm outline-none border-[1px] border-slate-400 text-slate-600"
                 />
               </div>
               <div
@@ -297,7 +344,7 @@ export default defineComponent({
                   id="anneeFilter"
                   v-model="AnneeFilter"
                   placeholder="Contact"
-                  class="w-36 my-2 p-1.5 rounded-sm outline-none border-[1px] border-slate-400 text-slate-600"
+                  class="w-36 my-2 p-2 rounded-sm outline-none border-[1px] border-slate-400 text-slate-600"
                 />
               </div>
               <div class="action-btn flex flex-row">
@@ -319,7 +366,11 @@ export default defineComponent({
           </div>
           <div class="slaireStat w-full h-[11.75rem] bg-slate-700 rounded-3xl p-4">
             <div>
-              <LineChart :chartData="productivityData" :chart-options="chartOptions" class="w-full" />
+              <LineChart
+                :chartData="productivityData"
+                :chart-options="chartOptions"
+                class="w-full"
+              />
               <h3 class="font-sans text-[0.60rem] text-slate-200 mx-2">
                 Courbe des salaires des six derniers mois payés
               </h3>
@@ -328,7 +379,7 @@ export default defineComponent({
         </div>
         <div class="w-[50%] h-full bg-slate-800 rounded-3xl">
           <h2 class="font-semibold text-green-100 pt-4 text-center">Historique de paie</h2>
-          <div class="container w-full h-[90%] p-4">
+          <div class="container w-full h-[90%] p-4 relative" id="historiqueDePaie">
             <div class="content w-full h-full bg-slate-700 rounded-2xl p-2 text-slate-200 text-xs">
               <header
                 class="enTete w-full h-[22%] text-[0.65rem] flex flex-col pb-3 border-b-[1px] border-slate-400 mb-2"
@@ -350,7 +401,8 @@ export default defineComponent({
                   >
                   <button
                     v-if="salaireData.salaires.length"
-                    class="ficheDePaie w-20 p-1 font-medium text-slate-200 hover:bg-slate-400 bg-slate-600 rounded-lg border-[1px] border-slate-400"
+                    @click="afficheFicheDePaie()"
+                    class="ficheDePaie w-20 p-1 font-medium text-slate-200 hover:bg-slate-400 bg-slate-600 rounded-lg border-[1px] border-slate-400 absolute right-10"
                   >
                     Fiche de paie
                   </button>
@@ -377,6 +429,67 @@ export default defineComponent({
                 </div>
               </div>
               <div v-else class="aucuneNotification w-full text-center">Aucun salaire trouvé.</div>
+            </div>
+          </div>
+
+          <!-- pdf -->
+          <div
+            id="ficheDePaie"
+            class="w-96 h-auto bg-white rounded-xl absolute hidden left-1/3 top-20"
+          >
+            <div class="container w-full h-96 p-4 overflow-y-auto" id="ficheContent">
+              <div class="content w-full h-full rounded-2xl p-2 text-slate-600 text-xs">
+                <header
+                  class="enTete w-full h-[22%] text-[0.65rem] flex flex-col pb-3 border-b-[1px] border-slate-400 mb-2"
+                >
+                  <div class="profile w-full flex flex-row">
+                    <label
+                      >Employe :
+                      <span class="font-normal"
+                        >{{ salaireData.employeNom }} {{ salaireData.employePrenom }}</span
+                      ></label
+                    >
+                  </div>
+                  <label
+                    >ID : <span class="font-light">{{ salaireData.employeId }}</span></label
+                  >
+                  <div class="w-full flex flex-row justify-between items-center">
+                    <label
+                      >Annee : <span class="font-light">{{ salaireData.annee }}</span></label
+                    >
+                  </div>
+                </header>
+                <div class="wrapper w-full h-[78%] overflow-x-auto">
+                  <div
+                    v-for="(salaire, index) in salaireData.salaires"
+                    :key="index"
+                    class="salaire w-full flex flex-col text-[0.65rem] font-sans font-medium text-slate-600 p-2 rounded"
+                  >
+                    <label class="text-slate-800"
+                      >Mois de : {{ moisEnLettres[salaire.mois - 1] }}</label
+                    >
+                    <label>Date de paiement : {{ salaire.datePaiement }}</label>
+                    <label>Montant totale : {{ salaire.montant + salaire.avanceDeduite }} Ar</label>
+                    <label>Avance du mois : {{ salaire.avanceDeduite }} Ar</label>
+                    <label>Montant Net : {{ salaire.montant }} Ar</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-btn w-full flex flex-row justify-center m-2">
+              <button
+                @click="annulerImpression()"
+                class="annuler w-20 mt-2 p-2 text-xs rounded font-sans font-medium hover:bg-red-400 hover:text-slate-200 text-slate-700 transition-all m-2"
+              >
+                Annuler
+              </button>
+              <button
+                @click="exportToPDF()"
+                class="imprimer w-20 mt-2 p-2 text-xs rounded font-sans font-medium bg-slate-700 text-slate-200 hover:bg-green-300 hover:text-slate-700 transition-all m-2"
+              >
+                Imprimer
+              </button>
             </div>
           </div>
         </div>

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, onBeforeUnmount, onMounted } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { type PosteTravail } from './interface/Employe'
 import { useToast } from 'vue-toast-notification'
 import { eventBus } from './events/eventBus'
 import '@vuepic/vue-datepicker/dist/main.css'
 import ModifierPoste from './modifierPoste.vue'
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
 const toast = useToast({position: 'top-right'})
 // Liste d'employés
 const postes = ref<PosteTravail[]>([])
@@ -18,7 +17,7 @@ const fetchPostes = async () => {
   loading.value = true
 
   try {
-    const response = await axios.get<PosteTravail[]>(`${backendUrl}/PosteTravail`)
+    const response = await axiosInstance.get<PosteTravail[]>(`/PosteTravail`)
     postes.value = response.data
   } catch (err) {
     console.error(err)
@@ -36,7 +35,7 @@ const deletePoste = async (id_poste: number) => {
   if (!confirmation) return
 
   try {
-    await axios.delete(`${backendUrl}/Poste/${id_poste}`)
+    await axiosInstance.delete(`/Poste/${id_poste}`)
     // Mettre à jour la liste des postes après suppression
     await fetchPostes()
     toast.success(`Poste ID = ${id_poste} supprimé`)
@@ -61,7 +60,7 @@ const mettreAJourPoste = async (poste: PosteTravail) => {
   console.log(poste)
   try {
     // Appel de l'API avec la méthode PUT
-    const response = await axios.put(`${backendUrl}/PosteTravail/${id}`, poste)
+    const response = await axiosInstance.put(`/PosteTravail/${id}`, poste)
 
     // Vérifier le statut de la réponse
     if (response.status === 204) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref, watch, defineComponent, type PropType } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios';
 
 export default defineComponent({
   props: {
@@ -21,6 +21,20 @@ export default defineComponent({
   setup(props, { emit }) {
     // Création d'une copie réactive de `employe`
     const localPaiement = ref({ ...props.paiement })
+    const moisEnLettres = [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre'
+    ]
 
     // Met à jour `localEmploye` si `employe` change dans le parent
     watch(
@@ -65,9 +79,8 @@ export default defineComponent({
       loading.value = true
       error.value = null
 
-      console.log(localPaiement.value)
       try {
-        const response = await axios.get(`${backendUrl}/Salaire/paiement/details`, {
+        const response = await axiosInstance.get(`${backendUrl}/Salaire/paiement/details`, {
           params: {
             id_employe: localPaiement.value.id_employe,
             datePaiement: localPaiement.value.date_paiement,
@@ -76,7 +89,6 @@ export default defineComponent({
           }
         })
         detailsPaiement.value = response.data
-        console.log(detailsPaiement.value)
       } catch (err) {
         error.value = 'Erreur lors de la recuperation des details du paiement'
       } finally {
@@ -88,6 +100,7 @@ export default defineComponent({
 
     return {
       localPaiement,
+      moisEnLettres,
       effectuerPaiement,
       annulerPaiement,
       loading,
@@ -146,10 +159,10 @@ export default defineComponent({
         <div class="w-60 flex flex-row justify-between items-center mb-2">
           <label>Date :</label>
           <input
-            type="number"
+            type="text"
             disabled
             id="mois"
-            :value="detailsPaiement?.mois"
+            :value="moisEnLettres[detailsPaiement.mois - 1]"
             class="w-20 p-2 rounded-sm outline-none border-[1px] border-slate-400"
           />
           <input

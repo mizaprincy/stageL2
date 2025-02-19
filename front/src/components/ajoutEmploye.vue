@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { type PosteTravail } from './interface/Employe'
 import { useToast } from 'vue-toast-notification'
 import { eventBus } from './events/eventBus'
@@ -33,7 +33,6 @@ function exitFormAjoutEmploye() {
   formAjoutEmploye.reset()
 }
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
 // Liste des postes de travail
 const postes = ref<PosteTravail[]>([])
 const loading = ref(false)
@@ -45,7 +44,7 @@ const fetchPostes = async () => {
   error.value = null
 
   try {
-    const response = await axios.get<PosteTravail[]>(`${backendUrl}/PosteTravail`)
+    const response = await axiosInstance.get<PosteTravail[]>(`/PosteTravail`)
     postes.value = response.data
   } catch (err) {
     error.value = 'Erreur lors du chargement des postes de travail'
@@ -84,7 +83,7 @@ const AjoutEmploye = async () => {
       id_poste: newEmploye.value.id_poste
     }
     // Envoi de la requête POST
-    const response = await axios.post(`${backendUrl}/Employe`, employeData)
+    const response = await axiosInstance.post(`/Employe`, employeData)
     console.log('Employé ajouté avec succès', response.data)
     toast.success('Employé ajouté avec succès')
     eventBus.emit('employeAdded')

@@ -1,14 +1,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import type { Inbox } from '@/components/interface/Employe'
-import axios from 'axios'
-import { useGlobalStore } from '@/stores/globalStore';
+import axiosInstance from '@/config/axios';
+import { useGlobalStore } from '@/stores/globalStore'
+import router from '@/router'
+import { useToast } from 'vue-toast-notification'
 
 export default defineComponent({
   name: 'InboxAdmin',
   setup() {
     const globalStore = useGlobalStore()
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const toast = useToast()
     const inboxes = ref<Inbox[]>([])
     const loading = ref(false)
     const error = ref<string | null>(null)
@@ -17,16 +19,16 @@ export default defineComponent({
       error.value = null
       if (!(globalStore && globalStore.isLoggedIn)) {
         console.error('User non trouve')
+        router.push('/')
         return
       }
-      console.log(globalStore.user)
       try {
-        const response = await axios.get<Inbox[]>(
-          `${backendUrl}/Inbox/admin?email=${globalStore.user?.email}`
+        const response = await axiosInstance.get<Inbox[]>(
+          `/Inbox/admin?email=${globalStore.user?.email}`
         )
         inboxes.value = response.data
       } catch (err) {
-        error.value = 'Erreur lors du chargement des employés'
+        error.value = 'Erreur lors du chargement des messages'
       } finally {
         loading.value = false
       }
@@ -34,7 +36,7 @@ export default defineComponent({
     fetchInbox()
 
     const repondreDemande = async (demandeId: number, statut: string) => {
-      const confirmation = confirm(`Voulez-vous que catte demande soit ${statut}`)
+      const confirmation = confirm(`Voulez-vous que cette demande soit ${statut}`)
       if (!confirmation) {
         return
       }
@@ -45,10 +47,12 @@ export default defineComponent({
         email
       }
       try {
-        const response = await axios.patch(`${backendUrl}/DemandeAvance/admin/repondre`, payload)
+        const response = await axiosInstance.patch(`/DemandeAvance/admin/repondre`, payload)
 
         if (response.status === 200) {
-          console.log('Réponse envoyée avec succès!', response.data)
+          toast.success('Réponse envoyée avec succès!', {
+            position: 'top-right'
+          })
           fetchInbox() // Rafraîchissement de la boîte de réception
         } else {
           console.error("Erreur lors de l'envoi de la réponse", response.status)

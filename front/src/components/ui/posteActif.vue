@@ -1,15 +1,14 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { eventBus } from '../events/eventBus'
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
 const activePostesCount = ref(0) // Variable pour stocker le nombre d'employés actifs
 
 // Fonction pour récupérer le nombre d'employés actifs
 const fetchActivePostesCount = async () => {
   try {
-    const response = await axios.get(`${backendUrl}/PosteTravail/actifs/count`)
+    const response = await axiosInstance.get(`/PosteTravail/actifs/count`)
     activePostesCount.value = response.data // Mettre à jour la variable avec le résultat
   } catch (err) {
     console.error('Erreur lors de la récupération du nombre de postes de travail actifs', err)

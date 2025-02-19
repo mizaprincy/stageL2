@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeUnmount, onMounted } from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/config/axios'
 import { type PosteTravail } from './interface/Employe'
 import { useRoute, useRouter } from 'vue-router'
 import { type Employe } from './interface/Employe'
@@ -14,7 +14,6 @@ const toast = useToast({position: 'top-right'})
 // Utilisation de Vue Router pour gérer l'URL
 const route = useRoute()
 const router = useRouter()
-const backendUrl = import.meta.env.VITE_BACKEND_URL
 // Liste d'employés
 const employes = ref<Employe[]>([])
 const loading = ref(false)
@@ -25,7 +24,7 @@ const fetchEmployes = async () => {
   loading.value = true
 
   try {
-    const response = await axios.get<Employe[]>(`${backendUrl}/Employe`)
+    const response = await axiosInstance.get<Employe[]>(`/Employe`)
     employes.value = response.data
   } catch (err) {
     console.error(err)
@@ -50,7 +49,7 @@ const filteredEmployes = async () => {
   try {
     // Met à jour le paramètre `name` dans l'URL avec la valeur actuelle de `searchTerm`
     router.replace({ query: { ...route.query, name: searchTerm.value.toLowerCase() } })
-    const response = await axios.get<Employe[]>(`${backendUrl}/Employe/search`, {
+    const response = await axiosInstance.get<Employe[]>(`/Employe/search`, {
       params: {
         name: searchTerm.value.toLowerCase(),
         id_poste: postefilter.value,
@@ -70,6 +69,7 @@ const filteredEmployes = async () => {
 //Filtre
 const postefilter = ref<number>(0)
 const statut = ref<string>('actif')
+const actifFilter = ref(true)
 const embaucheFilter = ref<Date | null>(null)
 
 let filtreSelected = ref<boolean>(false)
@@ -87,6 +87,7 @@ const hideFilter = () => {
 const resetFilter = async () => {
   postefilter.value = 0
   statut.value = 'actif'
+  actifFilter.value = true
   embaucheFilter.value = null
 
   // Mettre à jour l'URL en supprimant explicitement les filtres
@@ -109,6 +110,8 @@ const applyFilter = async () => {
   const formattedEmbauche = embaucheFilter.value ? new Date(embaucheFilter.value).toISOString().split('T')[0]: null
   
   // Mettre à jour les paramètres de l'URL pour refléter les filtres actifs
+  if(statut.value == 'actif') actifFilter.value = true
+  else actifFilter.value = false
   router.push({
     query: {
       ...route.query,
@@ -121,7 +124,7 @@ const applyFilter = async () => {
 
   try {
     // Requête avec les paramètres de filtre
-    const response = await axios.get<Employe[]>(`${backendUrl}/Employe/filter`, {
+    const response = await axiosInstance.get<Employe[]>(`/Employe/filter`, {
       params: {
         id_poste: postefilter.value || undefined,
         statut: statut.value.toLowerCase(),
@@ -162,7 +165,7 @@ const deleteEmploye = async (id_employe: string) => {
   }
 
   try {
-    await axios.delete(`${backendUrl}/Employe/${id_employe}/${dateDepart}`)
+    await axiosInstance.delete(`/Employe/${id_employe}/${dateDepart}`)
     // Mettre à jour la liste des employés après suppression
     await fetchEmployes()
     toast.success(`Employé ${id_employe} supprimé`)
@@ -185,10 +188,9 @@ const editEmploye = (employe: Employe) => {
 const mettreAJourEmploye = async (employe: Employe) => {
   // Logique pour mettre à jour l'employé dans la liste ou via une requête backend
   const id = employe.id_employe
-  console.log(employe)
   try {
     // Appel de l'API avec la méthode PUT
-    const response = await axios.put(`${backendUrl}/Employe/${id}`, employe)
+    const response = await axiosInstance.put(`/Employe/${id}`, employe)
 
     // Vérifier le statut de la réponse
     if (response.status === 204) {
@@ -233,7 +235,7 @@ const fetchPostes = async () => {
   loading.value = true
 
   try {
-    const response = await axios.get<PosteTravail[]>(`${backendUrl}/PosteTravail`)
+    const response = await axiosInstance.get<PosteTravail[]>(`/PosteTravail`)
     postes.value = response.data
   } catch (err) {
     console.error(err)
@@ -408,7 +410,8 @@ fetchPostes()
             <td class="text-start">{{ employe.prenom }}</td>
             <td>{{ employe.email }}</td>
             <td class="text-end">{{ employe.poste_Travail?.design }}</td>
-            <td class="flex flex-row mt-1 justify-end">
+            <td v-if="!actifFilter" class="text-end">Départ : {{ employe.date_depart }}</td>
+            <td v-if="actifFilter" class="flex flex-row mt-1 justify-end">
               <button @click="editEmploye(employe)" class="bg-blue-500 text-slate-200 rounded p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

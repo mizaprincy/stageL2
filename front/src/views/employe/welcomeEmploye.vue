@@ -1,21 +1,20 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useGlobalStore } from '@/stores/globalStore'
+import InboxEmploye from '@/components/inbox-Employe.vue'
 
 export default defineComponent({
   name: 'WelcomeEmploye',
+  components: {
+    InboxEmploye
+  },
   setup() {
-    const user = ref({ nom: '', prenom: '', email: '', role: '' })
     // Utilisation de Vue Router pour gérer l'URL
     const route = useRoute()
     const router = useRouter()
-
-    onMounted(() => {
-      const userData = sessionStorage.getItem('user')
-      if (userData) {
-        user.value = JSON.parse(userData)
-      }
-    })
+    const globalStore = useGlobalStore()
+    const { user } = globalStore
 
     const getStarted = () => {
       router.push('/employe/apercu')
@@ -27,9 +26,25 @@ export default defineComponent({
     const Logout = () => {
       let confirmation = confirm('Voulez-vous terminer la session?')
       if (confirmation) {
-        sessionStorage.removeItem('user')
+        globalStore.logout()
         router.push('/')
       }
+    }
+    const showNotification = () => {
+      const notification = document.getElementById('notification')!
+      notification.style.display = 'block'
+      notification.style.top = '3.5rem'
+    }
+    const hideNotification = () => {
+      const notification = document.getElementById('notification')!
+      notification.style.display = 'none'
+      notification.style.top = '0px'
+    }
+
+    const receivedValue = ref('')
+
+    const handleValue = (value: string) => {
+      receivedValue.value = value
     }
     return {
       user,
@@ -37,6 +52,10 @@ export default defineComponent({
       router,
       getStarted,
       showDescription,
+      showNotification,
+      hideNotification,
+      handleValue,
+      receivedValue,
       Logout
     }
   }
@@ -49,34 +68,81 @@ export default defineComponent({
   >
     <div class="description w-full flex flex-row justify-between items-center">
       <h1 class="font-sans text-slate-100 text-6xl font-semibold">
-        Content de te revoir {{ user.prenom }}!
+        Content de te revoir {{ user?.prenom }}!
       </h1>
-      <button @click="Logout()" class="Logout text-slate-200 font-medium p-2 rounded-xl bg-red-500">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-power"
+      <div class="w-40 flex flex-row justify-evenly relative">
+        <div>
+          <div
+            @mouseover="showNotification()"
+            class="inbox w-14 flex justify-center text-slate-600 font-medium p-2 rounded-xl cursor-pointer shadow-sm shadow-slate-500 relative"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-inbox"
+            >
+              <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+              <path
+                d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+              />
+            </svg>
+            <div
+              v-if="receivedValue != '0'"
+              class="nombreNotif text-center w-5 p-0.5 text-xs text-slate-200 rounded-full bg-red-500 absolute -bottom-2 right-0"
+            >
+              <span>{{ receivedValue }}</span>
+            </div>
+            <div
+              @mouseleave="hideNotification()"
+              id="notification"
+              class="notification w-72 h-96 rounded bg-slate-50 shadow-xl absolute top-0 -right-2 hidden"
+            >
+              <header class="w-full px-4 py-3 border-b-2 border-slate-300">
+                <h2>Notifications</h2>
+              </header>
+              <section class="w-full p-2 overflow-y-auto">
+                <InboxEmploye @nbInbox="handleValue" />
+              </section>
+            </div>
+          </div>
+        </div>
+        <button
+          @click="Logout()"
+          class="Logout text-slate-200 font-medium p-2 rounded-xl bg-red-500"
         >
-          <path d="M12 2v10" />
-          <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-power"
+          >
+            <path d="M12 2v10" />
+            <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
+          </svg>
+        </button>
+      </div>
     </div>
     <section
       class="contenu w-[50%] h-[200%] flex flex-col self-center rounded-lg mt-10 p-6 bg-white overflow-y-auto"
     >
       <div v-if="route.path === '/employe'" class="welcome-message text-justify">
-        <h1 class="text-3xl font-bold text-slate-600 text-center m-2">
-          Bienvenue dans TeamUp!
-        </h1>
-        <h2 class="text-center font-semibold text-slate-500 mb-4">Votre application de gestion de paie et des employes</h2>
+        <h1 class="text-3xl font-bold text-slate-600 text-center m-2">Bienvenue dans TeamUp!</h1>
+        <h2 class="text-center font-semibold text-slate-500 mb-4">
+          Votre application de gestion de paie et des employes
+        </h2>
         <p class="text-gray-700 mb-4">
           Simplifiez la gestion de votre entreprise avec notre outil intuitif et puissant :
         </p>
@@ -167,5 +233,12 @@ export default defineComponent({
 }
 .contenu::-webkit-scrollbar {
   display: none;
+}
+.inbox-admin::-webkit-scrollbar {
+  display: none;
+}
+.notification {
+  transition:
+    top 0.3s ease-out,
 }
 </style>
